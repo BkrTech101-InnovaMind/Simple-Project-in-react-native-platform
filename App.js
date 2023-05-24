@@ -1,16 +1,26 @@
 import { useState } from "react"
-import { Alert, FlatList, Text, View } from "react-native"
+import { Alert, Button, FlatList, Text, View } from "react-native"
 import TasksInput from "./components/TasksInput"
 import TasksList from "./components/TasksList"
 
 export default function App() {
   const [tasks, setTasks] = useState([])
+  const [modalVisibility, setModalVisibility] = useState(false)
+
+  const starterModal = () => {
+    setModalVisibility(true)
+  }
+
+  const stopModal = () => {
+    setModalVisibility(false)
+  }
 
   const addTasksHandler = (enteredTask) => {
     setTasks((currentTasks) => [
       ...currentTasks,
       { id: Math.random().toString(), text: enteredTask },
     ])
+    stopModal()
   }
 
   const removeTaskHandler = (id) => {
@@ -38,7 +48,13 @@ export default function App() {
 
   return (
     <View className='pt-14 px-4 flex-1'>
-      <TasksInput onAddTask={addTasksHandler} />
+      <Button title='Add new task' color='#5e0acc' onPress={starterModal} />
+      <TasksInput
+        onAddTask={addTasksHandler}
+        visible={modalVisibility}
+        stopModal={stopModal}
+        onCancel={stopModal}
+      />
       <View className='flex-[5]'>
         {tasks.length === 0 ? (
           <Text>Let's go to add the first task for today 😍</Text>
