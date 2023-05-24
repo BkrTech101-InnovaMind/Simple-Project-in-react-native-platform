@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from "react"
+import { FlatList, View } from "react-native"
+import TasksInput from "./components/TasksInput"
+import TasksList from "./components/TasksList"
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [tasks, setTasks] = useState([])
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  const addTasksHandler = (enteredTask) => {
+    setTasks((currentTasks) => [
+      ...currentTasks,
+      { id: Math.random().toString(), text: enteredTask },
+    ])
+  }
+
+  const removeTaskHandler = (id) => {
+    setTasks((currentTasks) => {
+      return currentTasks.filter((task) => task.id !== id)
+    })
+  }
+
+  return (
+    <View className='pt-14 px-4 flex-1'>
+      <TasksInput onAddTask={addTasksHandler} />
+      <View className='flex-[5]'>
+        <FlatList
+          data={tasks}
+          keyExtractor={(item) => {
+            return item.id
+          }}
+          renderItem={(itemData) => {
+            return (
+              <TasksList itemData={itemData} onRemoveTask={removeTaskHandler} />
+            )
+          }}
+        />
+      </View>
+    </View>
+  )
+}
