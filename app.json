@@ -15,13 +15,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.expo.client"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/appLogo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.abobakr_mahdi.firstappinreactnativebyabobakrmahdi"
     },
     "web": {
       "favicon": "./assets/appLogo.png"
