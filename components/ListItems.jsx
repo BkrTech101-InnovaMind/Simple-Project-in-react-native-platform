@@ -25,8 +25,14 @@ export default function ListItems({ toDos, setToDos }) {
       [
         {
           text: "Yes",
-          onPress: () => {
+          onPress: async () => {
             setToDos(newToDos)
+
+            try {
+              await AsyncStorage.setItem("tasks", JSON.stringify(newToDos))
+            } catch (error) {
+              console.error("Error saving tasks to storage:", error)
+            }
           },
         },
         {
